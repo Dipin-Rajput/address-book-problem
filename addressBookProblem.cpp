@@ -76,6 +76,8 @@ public:
 
         Contact newContact(firstName, lastName, address, city, state, zip, phoneNumber, email); // Object for Contact class
         addressBook.push_back(newContact); // Add contact to addressBook vector
+
+        cout << "\nContact added successfully\n";
     }
 
     // UC3: Ability to edit contact in address book
@@ -83,7 +85,7 @@ public:
     void editContact(){
 
         if(addressBook.empty()){ // Check if addressBook is empty or not
-            cout << "\nAddress Book is empty, please add contact first";
+            cout << "\nAddress Book is empty, please add contact first\n";
             return;
         }
 
@@ -108,13 +110,13 @@ public:
                 cout << "Enter new state [current state: "<< contact.state << "]: "; getline(cin, input);
                 if(!input.empty()){contact.state = input;}
 
-                cout << "Enter new zip [current zip: "<< contact.zip << "]: "; cin >> contact.zip;
+                cout << "Enter new zip [current zip: "<< contact.zip << "]: "; getline(cin, input);
                 if(!input.empty()){contact.zip = input;}
 
-                cout << "Enter new phone number [current phone number: "<< contact.phoneNumber<< "]: "; cin >> contact.phoneNumber;
+                cout << "Enter new phone number [current phone number: "<< contact.phoneNumber<< "]: "; getline(cin, input);
                 if(!input.empty()){contact.phoneNumber = input;}
 
-                cout << "Enter new email [current email: "<< contact.email << "]: "; cin.ignore(); getline(cin, input);
+                cout << "Enter new email [current email: "<< contact.email << "]: "; getline(cin, input);
                 if(!input.empty()){contact.email = input;}
 
                 cout << "\nContact updated successfully\n";
@@ -131,7 +133,7 @@ public:
     void deleteContact(){
 
         if(addressBook.empty()){ // Check if addressBook is empty or not
-            cout << "\nAddress Book is empty, please add contact first";
+            cout << "\nAddress Book is empty, please add contact first\n";
             return;
         }
 
@@ -155,12 +157,16 @@ public:
     void displayContacts(){
 
         if(addressBook.empty()){ // Check if addressBook is empty or not
-            cout << "\nAddress Book is empty, please add contact first";
+            cout << "\nAddress Book is empty, please add contact first\n";
             return;
         }
 
+        int count = 1;
+
         for(const auto& contact : addressBook){ // Loop to iterate over addressBook
+            cout << "\nContact: " << count << " ------------------------------" << endl;
             contact.displayContact(); // Fucntion call to display contact
+            count++;
         }
     }
 };
@@ -173,12 +179,50 @@ int main(){
 
     AddressBook addressBook; // Object for AdressBook class
 
-    addressBook.addContact(); // Function call to add contact
-    addressBook.displayContacts(); // Function call to display contact
-    addressBook.editContact(); // Function call to edit contact
-    addressBook.displayContacts(); // Function call to display contact after edit
-    addressBook.deleteContact(); // Function call to delete contact
-    addressBook.displayContacts(); // Fuction call to display contact after delete
+    char input;
+
+    // UC5: Ability to add mulitple contacts in address book
+
+    // do - while loop to perform operations mulitple times
+
+    do{
+        cout << "\nEnter 1 to add new contact";
+        cout << "\nEnter 2 to edit contact";
+        cout << "\nEnter 3 to delete contact";
+        cout << "\nEnter 4 to display contacts\n";
+
+        int choice;
+
+        cout << "\nEnter your choice: "; cin >> choice;
+
+        switch(choice){
+
+            case 1:
+                addressBook.addContact(); // Function call to add contact
+                break;
+
+            case 2:
+                addressBook.editContact(); // Function call to edit contact
+                break;
+
+            case 3:
+                addressBook.deleteContact(); // Function call to delete contact
+                break;
+
+            case 4:
+                addressBook.displayContacts(); // Function call to display contact
+                break;
+
+            default:
+                cout << "\nInvalid Choice, please enter from above choices";
+                break;
+        }
+
+        cout << "\nDo you want to continue? (y/n): "; cin >> input;
+    }
+    while(input == 'y' || input == 'Y');
+
+    cout << "\nClosing Address Book Program, Thank You for Joining.\n\n";
 
     return 0;
 }
