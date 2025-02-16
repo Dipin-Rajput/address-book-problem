@@ -126,6 +126,32 @@ public:
         cout << "\nContact Not found, please enter valid name\n";
     }
 
+    // UC3: Ability to edit contact in address book
+
+    void deleteContact(){
+
+        if(addressBook.empty()){ // Check if addressBook is empty or not
+            cout << "\nAddress Book is empty, please add contact first";
+            return;
+        }
+
+        string firstName, lastName, fullName;
+
+        cout << "\nEnter your first name: "; cin >> firstName;
+        cout << "Enter your last name: "; cin >> lastName;
+        fullName = firstName + " " + lastName;
+
+        for(auto itr = addressBook.begin(); itr != addressBook.end(); ++itr){ // Loop to find the contact with name using iterator
+            if(itr->fullName == fullName){
+                addressBook.erase(itr);
+                cout << "\nContact deleted successfully\n";
+                return;
+            }
+        }
+
+        cout << "\nContact Not found, please enter valid name\n";
+    }
+
     void displayContacts(){
 
         if(addressBook.empty()){ // Check if addressBook is empty or not
@@ -151,6 +177,8 @@ int main(){
     addressBook.displayContacts(); // Function call to display contact
     addressBook.editContact(); // Function call to edit contact
     addressBook.displayContacts(); // Function call to display contact after edit
+    addressBook.deleteContact(); // Function call to delete contact
+    addressBook.displayContacts(); // Fuction call to display contact after delete
 
     return 0;
 }
