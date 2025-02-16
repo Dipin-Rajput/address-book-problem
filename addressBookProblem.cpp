@@ -126,7 +126,7 @@ public:
         cout << "\nContact Not found, please enter valid name\n";
     }
 
-    // UC3: Ability to edit contact in address book
+    // UC4: Ability to delete contact in address book
 
     void deleteContact(){
 
