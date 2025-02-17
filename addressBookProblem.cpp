@@ -1,15 +1,8 @@
 # include <iostream>
 # include <vector>
 # include <string>
+# include <unordered_map>
 using namespace std;
-
-class AddressBookMain{
-
-public:
-    void displayMessage(){ // function to display message
-        cout << "\n-------------------- Welcome to Address Book Program --------------------\n";
-    }
-};
     
 class Contact{
 
@@ -171,13 +164,7 @@ public:
     }
 };
 
-
-int main(){
-
-    AddressBookMain addressBookMain; // Object for AddresssBookMain class
-    addressBookMain.displayMessage(); // Function call to display message
-
-    AddressBook addressBook; // Object for AdressBook class
+void manageAddressBook(AddressBook& book){
 
     char input;
 
@@ -198,23 +185,127 @@ int main(){
         switch(choice){
 
             case 1:
-                addressBook.addContact(); // Function call to add contact
+                book.addContact(); // Function call to add contact
                 break;
 
             case 2:
-                addressBook.editContact(); // Function call to edit contact
+                book.editContact(); // Function call to edit contact
                 break;
 
             case 3:
-                addressBook.deleteContact(); // Function call to delete contact
+                book.deleteContact(); // Function call to delete contact
                 break;
 
             case 4:
-                addressBook.displayContacts(); // Function call to display contact
+                book.displayContacts(); // Function call to display contact
                 break;
 
             default:
                 cout << "\nInvalid Choice, please enter from above choices";
+                break;
+        }
+
+        cout << "\nDo you want to continue? (y/n): "; cin >> input;
+    }
+    while(input == 'y' || input == 'Y');
+
+    cout << "\nReturning to Main Menu\n";
+}
+
+// UC5: Refactor to add mulitple address book in address book system
+
+class AddressBookMain{
+
+    unordered_map<string, AddressBook> addressBooks;
+
+public:
+
+    void displayMessage(){ // Function to display message
+        cout << "\n-------------------- Welcome to Address Book Program --------------------\n";
+    }
+
+    void addAddressBook(){ // Function to add address book
+
+        string bookName;
+        cout << "\nEnter address book name: ";cin.ignore(); getline(cin, bookName);
+        addressBooks[bookName] = AddressBook();
+        cout << "\nAddress Book '" << bookName << "' added successfully." << endl;
+    }
+
+    void selectAddressBook(){ // Function to select address book
+
+        if(addressBooks.empty()){
+            cout << "\nNo address book is available, please add one first\n";
+            return;
+        }
+
+        cout << "\nAvailable Address Books:\n\n";
+
+        for(auto book : addressBooks){
+            cout << "- " << book.first << endl;
+        }
+
+        string bookName;
+        cout << "\nEnter the address book name to use: "; cin.ignore(); getline(cin, bookName);
+        
+        if(addressBooks.find(bookName) != addressBooks.end()){
+            manageAddressBook(addressBooks[bookName]);
+        }
+        else{
+            cout << "\nAddress Book Not found, please enter valid name\n";
+        }
+    }
+
+    void displayAddressBooks(){ // Function call to display address book
+
+        if(addressBooks.empty()){
+            cout << "\nNo address book is available, please add one first\n";
+            return;
+        }
+
+        cout << "\nAvailable Address Books:\n\n";
+
+        for(auto book : addressBooks){
+            cout << "- " << book.first << endl;
+        }
+    }
+};
+
+
+int main(){
+
+    AddressBookMain addressBookMain; // Object for AddresssBookMain class
+    addressBookMain.displayMessage(); // Function call to display message
+
+    char input;
+
+    // do - while loop to perform operations mulitple times
+
+    do{
+        cout << "\nEnter 1 to add new address book";
+        cout << "\nEnter 2 to select an address book";
+        cout << "\nEnter 3 to display address books\n";
+
+        int choice;
+
+        cout << "\nEnter your choice: "; cin >> choice;
+
+        switch(choice){
+            
+            case 1:
+                addressBookMain.addAddressBook(); // Function call to add address book
+                break;
+
+            case 2:
+                addressBookMain.selectAddressBook(); // Function call to select address book
+                break;
+
+            case 3:
+                addressBookMain.displayAddressBooks(); // Function call to dispaly address books
+                break;
+
+            default:
+                cout << "\nInvalid Choice, please enter from above choices\n";
                 break;
         }
 
