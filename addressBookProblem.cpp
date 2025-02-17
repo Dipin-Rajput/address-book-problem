@@ -212,7 +212,7 @@ void manageAddressBook(AddressBook& book){
     cout << "\nReturning to Main Menu\n";
 }
 
-// UC5: Refactor to add mulitple address book in address book system
+// UC6: Refactor to add mulitple address book in address book system
 
 class AddressBookMain{
 
